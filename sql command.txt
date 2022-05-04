@@ -1,0 +1,104 @@
+CREATE DATABASE library
+***********************************
+CREATE TABLE book(
+id int PRIMARY KEY AUTO_INCREMENT,
+title varchar(50) NOT null,
+auther varchar(100),
+year int CHECK(year>2000)
+)
+***********************************
+CREATE TABLE member(
+id int PRIMARY KEY AUTO_INCREMENT,
+first_name varchar(50) NOT null,
+last_name varchar(50) NOT null,
+email varchar(200) DEFAULT 'admin@gmail.com'
+)
+**********************************
+CREATE TABLE request(
+id int PRIMARY KEY AUTO_INCREMENT,
+dateOfissend date not null,
+dateOfreturn date not null,
+bookID int,
+memberID int,
+FOREIGN KEY (bookID) REFERENCES book(id),
+FOREIGN KEY (memberID) REFERENCES member(id)
+)
+***********************************
+SELECT * from book
+***********************************
+SELECT title,year from book 
+***********************************
+SELECT * from book where year>2002
+**********************************
+SELECT * from book where year>2002 ORDER BY title DESC LIMIT 1
+**********************************
+SELECT * FROM book WHERE title LIKE '%ahmed%'
+**********************************
+INSERT INTO member(first_name,last_name,email)VALUES('ali','abuomar','admin@gmail.com')
+**********************************
+SELECT COUNT(id) from book
+*********************************
+SELECT COUNT(id) from book WHERE year=2022
+*********************************
+SELECT max(year) from book 
+*********************************
+SELECT * FROM book WHERE year in(2000,2022)
+*********************************
+SELECT * FROM book WHERE year BETWEEN 2000 and 2022
+*********************************
+UPDATE member SET
+first_name='omar',
+last_name='najjar'
+WHERE id=1
+*********************************
+SELECT * FROM request
+JOIN member
+on request.memberID=member.id
+********************************
+SELECT request.dateOfissend,member.first_name,member.last_name FROM request
+JOIN member
+on request.memberID=member.id
+********************************
+SELECT request.dateOfissend,member.first_name,member.last_name FROM request
+JOIN member
+on request.memberID=member.id
+WHERE request.dateOfissend='2022-04-05'
+********************************
+SELECT book.title,member.first_name,member.last_name,request.dateOfissend
+FROM request
+JOIN book ON request.bookID=book.id
+JOIN member on request.memberID=member.id
+********************************
+SELECT customer.name,meal.mealName,orderx.quentety
+FROM orderx
+JOIN customer 
+on orderx.customerID=customer.customerID
+JOIN meal
+on orderx.mealID=meal.mealID
+********************************
+SELECT customer.name,meal.mealName,orderx.quentety
+FROM orderx
+JOIN customer 
+on orderx.customerID=customer.customerID
+JOIN meal
+on orderx.mealID=meal.mealID
+********************************
+DELETE FROM request WHERE id=10
+********************************
+DROP DATABASE library
+********************************
+DROP TABLE book
+********************************
+TRUNCATE TABLE book
+********************************
+ALTER TABLE book ADD edition varchar(150)
+********************************
+ALTER TABLE book DROP edition
+********************************
+ALTER TABLE book CHANGE edition book_edition varchar(50)
+********************************
+ALTER TABLE book MODIFY book_edition varchar(100)
+********************************
+ALTER TABLE book ADD UNIQUE (book_edition)
+********************************
+RENAME TABLE book to book_table
